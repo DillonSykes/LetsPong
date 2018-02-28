@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_green_light"
+    tools:context="dsykes.letspong.NewGame">
+
+
+    <ToggleButton
+        android:id="@+id/oneGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="117dp"
+        android:text="@string/one_game" />
+
+    <ToggleButton
+        android:id="@+id/bestOf3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/oneGame"
+        android:layout_below="@+id/oneGame"
+        android:layout_marginTop="26dp"
+        android:text="@string/best_of_3" />
+
+    <ToggleButton
+        android:id="@+id/bestOf5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/oneGame"
+        android:layout_marginStart="48dp"
+        android:layout_toEndOf="@+id/oneGame"
+        android:text="@string/best_of_5" />
+
+    <ToggleButton
+        android:id="@+id/bestOf7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/bestOf3"
+        android:layout_alignBottom="@+id/bestOf3"
+        android:layout_alignStart="@+id/bestOf5"
+        android:text="@string/best_of_7" />
+</RelativeLayout>

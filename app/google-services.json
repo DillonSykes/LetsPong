@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "110673951454",
+    "firebase_url": "https://letspong-88fd3.firebaseio.com",
+    "project_id": "letspong-88fd3",
+    "storage_bucket": "letspong-88fd3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110673951454:android:cbeaa7ca1a150e14",
+        "android_client_info": {
+          "package_name": "dsykes.letspong"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "110673951454-uls8e3fglj74hoeeshr016nomo44hmvv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dsykes.letspong",
+            "certificate_hash": "416bd24167d08d1e8ecb2c883d5f8053843e2263"
+          }
+        },
+        {
+          "client_id": "110673951454-ig07ejbdih2suj8jjfppuoo9fckc9j4s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0AJ90Y4Dq9aaMCh4L51q8LF-AFsTZaXo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "110673951454-ig07ejbdih2suj8jjfppuoo9fckc9j4s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
