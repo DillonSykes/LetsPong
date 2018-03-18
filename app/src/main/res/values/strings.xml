@@ -9,4 +9,14 @@
     <string name="best_of_3">Best of 3</string>
     <string name="best_of_5">Best of 5</string>
     <string name="best_of_7">Best of 7</string>
+    <string name="addFriends">Add Friend</string>
+    <string name="StartGame">Start Game</string>
+    <string name="selectFriends">Select Friend</string>
+    <string name="PleaseSelectOpponent">Please select an Opponent</string>
+    <string name="OpponentName">OpponentName</string>
+    <string name="OpponentUID">OpponentUID</string>
+
+    <string-array name="friends_list">
+        <item> Temp place holder </item>
+    </string-array>
 </resources>

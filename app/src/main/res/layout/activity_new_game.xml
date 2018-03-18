@@ -7,41 +7,67 @@
     android:background="@android:color/holo_green_light"
     tools:context="dsykes.letspong.NewGame">
 
-
-    <ToggleButton
-        android:id="@+id/oneGame"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="117dp"
-        android:text="@string/one_game" />
+        android:layout_marginTop="20dp"
+        android:text="Choose opponent from friends list"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:id="@+id/textView" />
 
-    <ToggleButton
+    <Spinner
+        android:id="@+id/list_of_friends"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="12dp"
+        android:prompt="@string/selectFriends" />
+
+    <Button
+        android:id="@+id/oneGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_of_friends"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:text="@string/one_game"
+        android:onClick="playOneGame"/>
+
+    <Button
         android:id="@+id/bestOf3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/oneGame"
         android:layout_below="@+id/oneGame"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="5dp"
         android:text="@string/best_of_3" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/bestOf5"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/oneGame"
-        android:layout_marginStart="48dp"
-        android:layout_toEndOf="@+id/oneGame"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/bestOf3"
+        android:layout_marginTop="5dp"
         android:text="@string/best_of_5" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/bestOf7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bestOf5"
+        android:layout_marginTop="5dp"
+        android:text="@string/best_of_7" />
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/bestOf3"
-        android:layout_alignBottom="@+id/bestOf3"
-        android:layout_alignStart="@+id/bestOf5"
-        android:text="@string/best_of_7" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 </RelativeLayout>

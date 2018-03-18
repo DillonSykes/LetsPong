@@ -44,8 +44,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
-
-
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +136,5 @@ public class LoginActivity extends AppCompatActivity {
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute(type, userName, userId);
         finish();
-
     }
 }

@@ -32,6 +32,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
 
         String type = params[0];
         String login_url = "http://ec2-34-229-88-91.compute-1.amazonaws.com/addUsers.php";
+
         if(type.equals("login")){
             try {
                 String userName = params[1];

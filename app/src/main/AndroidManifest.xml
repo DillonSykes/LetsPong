@@ -19,7 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainPage" />
-        <activity android:name=".NewGame"></activity>
+        <activity android:name=".NewGame" />
+        <activity android:name=".Friends" />
+        <activity android:name=".OneGame"></activity>
     </application>
 
 </manifest>

@@ -53,6 +53,6 @@ public class MainPage extends AppCompatActivity {
     }
 
     public void goToFriendsActivity(View view) {
-
+        startActivity((new Intent(this, Friends.class)));
     }
 }
