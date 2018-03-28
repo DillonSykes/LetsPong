@@ -15,6 +15,7 @@
     <string name="PleaseSelectOpponent">Please select an Opponent</string>
     <string name="OpponentName">OpponentName</string>
     <string name="OpponentUID">OpponentUID</string>
+    <string name="YouHaveNoPoints">You have no points!</string>
 
     <string-array name="friends_list">
         <item> Temp place holder </item>

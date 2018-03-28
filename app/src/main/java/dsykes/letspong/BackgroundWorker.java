@@ -23,6 +23,7 @@ import java.net.URLEncoder;
 public class BackgroundWorker extends AsyncTask<String,Void,String> {
     Context context;
     AlertDialog alertDialog;
+    NewGame newGame;
     BackgroundWorker(Context ctx){
         context = ctx;
     }
@@ -79,8 +80,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPostExecute(String result) {
-        alertDialog.setMessage(result);
-        alertDialog.show();
     }
 
     @Override

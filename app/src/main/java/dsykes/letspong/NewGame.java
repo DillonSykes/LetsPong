@@ -1,6 +1,5 @@
 package dsykes.letspong;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,13 +16,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class NewGame extends AppCompatActivity implements Spinner.OnItemSelectedListener {
     Spinner listOfUsers;
@@ -34,6 +33,8 @@ public class NewGame extends AppCompatActivity implements Spinner.OnItemSelected
     String OpponentUID;
     String CurrentUID;
     ProgressBar progressBar;
+    String theMatchID;
+
 
 
     @Override
@@ -52,7 +53,7 @@ public class NewGame extends AppCompatActivity implements Spinner.OnItemSelected
     private void getData() {
         progressBar.setVisibility(View.VISIBLE);
         //Creating a string request
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.DATA_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.DATA_URL_GET_USERS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -139,18 +140,27 @@ public class NewGame extends AppCompatActivity implements Spinner.OnItemSelected
         String type = "newMatch";
         CreateNewMatchInDatabase newMatchInDatabase = new CreateNewMatchInDatabase(this);
         progressBar.setVisibility(View.VISIBLE);
-        newMatchInDatabase.execute(type, CurrentUID, OpponentUID);
+        try {
+            theMatchID = newMatchInDatabase.execute(type, CurrentUID, OpponentUID).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         finish();
         progressBar.setVisibility(View.INVISIBLE);
     }
     public void playOneGame(View view) {
         if (userSelected) {
             createNewMatch();
-            Intent playGameIntent = new Intent(this, OneGame.class).putExtra(getString(R.string.OpponentName), OpponentUserName).putExtra(getString(R.string.OpponentUID),OpponentUID);
+            Intent playGameIntent = new Intent(this, OneGame.class).putExtra(getString(R.string.OpponentName), OpponentUserName).putExtra(getString(R.string.OpponentUID),OpponentUID).putExtra("MatchID",theMatchID);
             startActivity(playGameIntent);
         } else {
             Toast.makeText(getApplicationContext(), R.string.PleaseSelectOpponent,Toast.LENGTH_SHORT).show();
         }
+    }
+    public void setMatchID(String result){
+        theMatchID = result;
     }
 
 }
