@@ -153,7 +153,7 @@ public class NewGame extends AppCompatActivity implements Spinner.OnItemSelected
     public void playOneGame(View view) {
         if (userSelected) {
             createNewMatch();
-            Intent playGameIntent = new Intent(this, OneGame.class).putExtra(getString(R.string.OpponentName), OpponentUserName).putExtra(getString(R.string.OpponentUID),OpponentUID).putExtra("MatchID",theMatchID);
+            Intent playGameIntent = new Intent(this, OneGame.class).putExtra(getString(R.string.OpponentName), OpponentUserName).putExtra(getString(R.string.OpponentUID),OpponentUID).putExtra("MatchID",theMatchID).putExtra("join",false);
             startActivity(playGameIntent);
         } else {
             Toast.makeText(getApplicationContext(), R.string.PleaseSelectOpponent,Toast.LENGTH_SHORT).show();

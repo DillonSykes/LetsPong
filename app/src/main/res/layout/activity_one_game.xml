@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_green_light"
+    tools:context="dsykes.letspong.OneGame">
+
+
+    <Button
+        android:id="@+id/player1Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="+1"
+        android:textSize="36sp"
+        android:onClick="addPoint"/>
+
+    <TextView
+        android:id="@+id/player1Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp"
+        android:text="TextView"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/player2Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/player1Name"
+        android:layout_below="@+id/player1Name"
+        android:layout_marginTop="44dp"
+        android:text="TextView"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/Versus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/player1Name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="Vs"
+        android:textSize="18sp" />
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/oneGamePb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <Button
+        android:id="@+id/undo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/player1Button"
+        android:layout_marginTop="64dp"
+        android:text="Undo last point"
+        android:onClick="UndoMyLastPoint"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/oneGamePb"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="13dp"
+        android:layout_toEndOf="@+id/Versus"
+        android:text="MatchID" />
+
+    <TextView
+        android:id="@+id/myMatchId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_marginStart="13dp"
+        android:layout_toEndOf="@+id/textView2"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/myPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/player1Name"
+        android:layout_marginEnd="26dp"
+        android:layout_toStartOf="@+id/player1Name"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/OppPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/myMatchId"
+        android:layout_below="@+id/player1Name"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/serveP1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/player2Name"
+        android:layout_alignStart="@+id/myPoints"
+        android:layout_below="@+id/myPoints"
+        android:layout_toStartOf="@+id/player2Name"
+        android:src="@drawable/serveicon" />
+
+    <ImageView
+        android:id="@+id/serveP2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/serveP1"
+        android:layout_alignStart="@+id/myMatchId"
+        android:layout_below="@+id/OppPoints"
+        android:src="@drawable/serveicon" />
+
+</RelativeLayout>

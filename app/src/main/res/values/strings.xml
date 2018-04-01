@@ -16,6 +16,7 @@
     <string name="OpponentName">OpponentName</string>
     <string name="OpponentUID">OpponentUID</string>
     <string name="YouHaveNoPoints">You have no points!</string>
+    <string name="join_game">Join Game</string>
 
     <string-array name="friends_list">
         <item> Temp place holder </item>

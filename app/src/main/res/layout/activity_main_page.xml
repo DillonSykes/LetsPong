@@ -37,11 +37,11 @@
         android:onClick="goToRecordActivity"
         android:text="@string/record" />
     <Button
-        android:id="@+id/Friends"
+        android:id="@+id/joinGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:onClick="goToFriendsActivity"
-        android:text="@string/friends" />
+        android:onClick="JoinGameActivity"
+        android:text="@string/join_game" />
 </RelativeLayout>
