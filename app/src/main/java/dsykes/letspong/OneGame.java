@@ -1,6 +1,7 @@
 package dsykes.letspong;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONArray;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class OneGame extends AppCompatActivity {
     String OpponentUserName;
@@ -43,6 +45,8 @@ public class OneGame extends AppCompatActivity {
     boolean isThisaJoin;
     AlertDialog.Builder builder;
     AlertDialog alert;
+    String firstServe;
+    String CurrServe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +73,22 @@ public class OneGame extends AppCompatActivity {
         OppenentPoints = findViewById(R.id.OppPoints);
         OppenentPoints.setText("0");
         UndoLast = findViewById(R.id.undo);
+        CurrServe = "noOne";
+        addlastButtonHit("nothing");
         if(!isThisaJoin){
             OpponentUserName = getIntent().getStringExtra(getString(R.string.OpponentName));
             TextViewOpp.setText(OpponentUserName);
             addMatchToFirebase(MatchID, CurrentUserName, OpponentUserName);
+            whoServesFirst();
         } else {
+            myRef.child(MatchID).child("P2").setValue(CurrentUserName);
             myRef.child(MatchID).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     HashMap<Object, Object> data = (HashMap<Object, Object>) dataSnapshot.getValue();
                     OpponentUserName = (String) data.get("P1");
                     TextViewOpp.setText(OpponentUserName);
+                    whoServesFirstJoin();
                 }
 
                 @Override
@@ -88,17 +97,30 @@ public class OneGame extends AppCompatActivity {
                 }
             });
         }
+        whoServesNow(false);
         myRef.child(MatchID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Match thisMatch = new Match();
                 HashMap<Object, Object> data = (HashMap<Object, Object>) dataSnapshot.getValue();
+                //OpponentUserName = (String) data.get("P2");
                 String OPPnewPoints = (String) data.get(OpponentUserName);
                 OppenentPoints.setText(OPPnewPoints);
                 String CURRnewPoints = (String) data.get(CurrentUserName);
                 CurrentUserPoints.setText(CURRnewPoints);
-                //thisMatch.setPlayer1Pts(dataSnapshot.child(CurrentUserName).getValue(Match.class).getPlayer1Pts());
-                //thisMatch.setPlayer2Pts(dataSnapshot.child(OpponentUserName).getValue(Match.class).getPlayer2Pts());
+                CurrServe = (String) data.get("CurrServe");
+                if(Objects.equals(CurrServe, CurrentUserName)){
+                    TextViewCurr.setTextColor(Color.RED);
+                    TextViewOpp.setTextColor(Color.BLACK);
+                    //CurrServe = OpponentUserName;
+                    //editCurrentServer(CurrServe);
+                } else if(CurrServe.equals(OpponentUserName)) {
+                    TextViewOpp.setTextColor(Color.RED);
+                    TextViewCurr.setTextColor(Color.BLACK);
+                    //CurrServe = CurrentUserName;
+                    //editCurrentServer(CurrServe);
+                }
+                isGameOver();
+
             }
 
             @Override
@@ -106,7 +128,19 @@ public class OneGame extends AppCompatActivity {
 
             }
         });
-        whoServesFirst();
+
+
+    }
+    public String isGameOver(){
+        String ender = "nobody won";
+        if(getCurrPoints() >= 11 && (getCurrPoints() - getOppPoints()) >= 2){
+            gameOverDialog(CurrentUserName);
+            ender = CurrentUserName;
+        } else if(getOppPoints() >=11 && (getOppPoints() - getCurrPoints()) >= 2){
+            gameOverDialog(OpponentUserName);
+            ender = OpponentUserName;
+        }
+        return ender;
     }
     public void whoServesFirst(){
         builder = new AlertDialog.Builder(this);
@@ -119,23 +153,145 @@ public class OneGame extends AppCompatActivity {
         alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serveP1.setVisibility(View.VISIBLE);
+                addFirstServeToFirebase(CurrentUserName);
+                editCurrentServer(CurrentUserName);
+                whoServesNow(false);
                 alert.dismiss();
             }
         });
         alert.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serveP2.setVisibility(View.VISIBLE);
+                addFirstServeToFirebase(OpponentUserName);
+                editCurrentServer(OpponentUserName);
+                whoServesNow(false);
                 alert.dismiss();
             }
         });
+    }
+    public void whoServesFirstJoin(){
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("Who Serves First?");
+        builder.setMessage("Player 1 chooses first server");
+        builder.setPositiveButton("Ok",null);
+        alert = builder.create();
+        alert.show();
+        alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whoServesNow(false);
+                alert.dismiss();
+            }
+        });
+    }
+    public void editCurrentServer(String s){
+        myRef.child(MatchID).child("CurrServe").setValue(s);
+    }
+    public void addFirstServeToFirebase(String s){
+        myRef.child(MatchID).child("firstServe").setValue(s);
+    }
+    public int getCurrPoints(){
+        return Integer.parseInt(CurrentUserPoints.getText().toString());
+    }
+    public int getOppPoints(){
+        return Integer.parseInt(OppenentPoints.getText().toString());
+    }
+    public int getTotalPoints(){
+        return  getCurrPoints() + getOppPoints();
+    }
+    public void whoServesNow(boolean undo){
+        int total = getTotalPoints();
+        if(total == 0){
+            myRef.child(MatchID).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    HashMap<Object, Object> data = (HashMap<Object, Object>) dataSnapshot.getValue();
+                    firstServe = (String) data.get("firstServe");
+                    CurrServe = (String) data.get("CurrServe");
+                    if(firstServe == CurrentUserName){
+                        TextViewCurr.setTextColor(Color.RED);
+                    }
+                    if(firstServe == OpponentUserName) {
+                        TextViewOpp.setTextColor(Color.RED);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+        if(total % 2 == 0 && total < 20 && total > 0 && !undo){
+            myRef.child(MatchID).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    HashMap<Object, Object> data = (HashMap<Object, Object>) dataSnapshot.getValue();
+                    CurrServe = (String) data.get("CurrServe");
+                    changeServeIcon();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+        if(total % 2 == 1 && total < 20 && total > 0 && undo){
+            myRef.child(MatchID).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    HashMap<Object, Object> data = (HashMap<Object, Object>) dataSnapshot.getValue();
+                    CurrServe = (String) data.get("CurrServe");
+                    changeServeIcon();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+        if(total > 20){
+            changeServeIcon();
+        }
+    }
+    public void gameOverDialog(String winner){
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("Game Over!");
+        builder.setMessage(winner + " won! \n Hit Ok to save the match.");
+        builder.setPositiveButton("Ok",null);
+        alert = builder.create();
+        alert.show();
+        alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Saved!",Toast.LENGTH_SHORT).show();
+                //Run thread to save match
+                startActivity(new Intent(OneGame.this,MainPage.class));
+            }
+        });
+    }
+    public void changeServeIcon(){
+        if(Objects.equals(CurrServe, CurrentUserName)){
+            //TextViewCurr.setTextColor(Color.BLACK);
+            //TextViewOpp.setTextColor(Color.RED);
+            CurrServe = OpponentUserName;
+            editCurrentServer(CurrServe);
+        } else if(CurrServe.equals(OpponentUserName)) {
+            //TextViewOpp.setTextColor(Color.BLACK);
+            //TextViewCurr.setTextColor(Color.RED);
+            CurrServe = CurrentUserName;
+            editCurrentServer(CurrServe);
+        }
     }
     public void addMatchToFirebase(String matchID,String CUserName, String OUserName){
         myRef.child(MatchID).child(CUserName).setValue(CurrentUserPoints.getText());
         myRef.child(MatchID).child(OUserName).setValue(OppenentPoints.getText());
         myRef.child(MatchID).child("P1").setValue(CUserName);
         myRef.child(MatchID).child("P2").setValue(OUserName);
+        myRef.child(MatchID).child("CurrServe").setValue("null");
     }
     public void addPointToFirebase(String points){
         myRef.child(MatchID).child(CurrentUserName).setValue(points);
@@ -143,7 +299,9 @@ public class OneGame extends AppCompatActivity {
     public void undoPointsToFirebase(String points){
         myRef.child(MatchID).child(CurrentUserName).setValue(points);
     }
-
+    public void addlastButtonHit(String s){
+            myRef.child(MatchID).child("lastBtn").setValue(s);
+    }
     public void addPoint(View view) {
         String strPts = CurrentUserPoints.getText().toString();
         int pts = Integer.parseInt(strPts);
@@ -151,6 +309,8 @@ public class OneGame extends AppCompatActivity {
         String newPtsValue = Integer.toString(pts);
         addPointToFirebase(newPtsValue);
         CurrentUserPoints.setText(newPtsValue);
+        addlastButtonHit("add");
+        whoServesNow(false);
     }
 
     public void UndoMyLastPoint(View view) {
@@ -164,6 +324,8 @@ public class OneGame extends AppCompatActivity {
         String newPtsValue = Integer.toString(pts);
         undoPointsToFirebase(newPtsValue);
         CurrentUserPoints.setText(newPtsValue);
+        addlastButtonHit("sub");
+        whoServesNow(true);
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
