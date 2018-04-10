@@ -257,7 +257,7 @@ public class OneGame extends AppCompatActivity {
             changeServeIcon();
         }
     }
-    public void gameOverDialog(String winner){
+    public void gameOverDialog(final String winner){
         builder = new AlertDialog.Builder(this);
         builder.setTitle("Game Over!");
         builder.setMessage(winner + " won! \n Hit Ok to save the match.");
@@ -267,8 +267,18 @@ public class OneGame extends AppCompatActivity {
         alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Saved!",Toast.LENGTH_SHORT).show();
+                if(!isThisaJoin){
+                    SaveMatchThread thread = new SaveMatchThread(getApplicationContext());
+                    thread.execute("SingleGame",
+                            CurrentUID,
+                            OpponentUID,
+                            MatchID,
+                            Integer.toString(getCurrPoints()),
+                            Integer.toString(getOppPoints()),
+                            winner);
+                }
                 //Run thread to save match
+                Toast.makeText(getApplicationContext(), "Saved!",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(OneGame.this,MainPage.class));
             }
         });
