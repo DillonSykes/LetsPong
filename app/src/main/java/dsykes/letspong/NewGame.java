@@ -125,7 +125,7 @@ public class NewGame extends AppCompatActivity implements Spinner.OnItemSelected
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         OpponentUserName = listOfUsers.getItemAtPosition(position).toString();
         OpponentUID = users.get(position).getUserId();
-        if (OpponentUserName.equals(getString(R.string.PleaseSelectOpponent))) {
+        if (OpponentUserName.equals(getString(R.string.PleaseSelectOpponent)) || OpponentUserName.equals(Users.getCurrentUserName())) {
             userSelected = false;
         } else {
             userSelected = true;

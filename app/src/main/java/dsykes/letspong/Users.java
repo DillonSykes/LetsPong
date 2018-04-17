@@ -2,6 +2,8 @@ package dsykes.letspong;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+
 /**
  * Created by jaydo on 3/10/2018.
  */
@@ -24,5 +26,14 @@ public class Users {
     }
     public static String getCurrentUID() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+    public static String findUserName(String UID, ArrayList<Users> users){
+        String ender = "";
+        for(Users aUser : users){
+            if(UID.equals(aUser.getUserId())){
+                ender = aUser.getUserName();
+            }
+        }
+        return ender;
     }
 }

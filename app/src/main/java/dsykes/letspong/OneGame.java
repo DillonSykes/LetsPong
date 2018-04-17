@@ -134,10 +134,10 @@ public class OneGame extends AppCompatActivity {
     public String isGameOver(){
         String ender = "nobody won";
         if(getCurrPoints() >= 11 && (getCurrPoints() - getOppPoints()) >= 2){
-            gameOverDialog(CurrentUserName);
+            gameOverDialog(CurrentUserName,CurrentUID,OpponentUID);
             ender = CurrentUserName;
         } else if(getOppPoints() >=11 && (getOppPoints() - getCurrPoints()) >= 2){
-            gameOverDialog(OpponentUserName);
+            gameOverDialog(OpponentUserName,OpponentUID,CurrentUID);
             ender = OpponentUserName;
         }
         return ender;
@@ -257,7 +257,7 @@ public class OneGame extends AppCompatActivity {
             changeServeIcon();
         }
     }
-    public void gameOverDialog(final String winner){
+    public void gameOverDialog(final String winner, final String wUID, final String lUID){
         builder = new AlertDialog.Builder(this);
         builder.setTitle("Game Over!");
         builder.setMessage(winner + " won! \n Hit Ok to save the match.");
@@ -275,7 +275,9 @@ public class OneGame extends AppCompatActivity {
                             MatchID,
                             Integer.toString(getCurrPoints()),
                             Integer.toString(getOppPoints()),
-                            winner);
+                            winner,
+                            wUID,
+                            lUID);
                 }
                 //Run thread to save match
                 Toast.makeText(getApplicationContext(), "Saved!",Toast.LENGTH_SHORT).show();
